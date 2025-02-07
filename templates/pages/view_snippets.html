@@ -27,6 +27,7 @@
                         <th scope="col">Удалить</th>
                         <th scope="col">Редактировать</th>
                         <th scope="col">Пользователь</th>
+                        <th scope="col">Публичность</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -35,13 +36,26 @@
                                 <td scope="row"> {{snippet.id}}</td>
                                 <td><a href="{% url "one-snippet" snippet.id %}">{{snippet.name}}</a></td>
                                 <td>{{snippet.creation_date}}</td>
-                                <td>
-                                    <a href="{% url "delete" snippet.id %}">Удалить</a>
-                                </td>
-                                <td>
-                                    <a href="{% url "edit" snippet.id %}">Редактировать</a>
-                                </td>
+                                
+                                    <td>
+                                        {% if request.user == snippet.user %}
+                                            <a href="{% url "delete" snippet.id %}">Удалить</a>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if request.user == snippet.user %}
+                                            <a href="{% url "edit" snippet.id %}">Редактировать</a>
+                                        {% endif %}
+                                    </td>
+                                
                                 <td>{{ snippet.user.username }}</td>
+                                <td>
+                                    {% if snippet.public %}
+                                        Публичный
+                                    {% else %}
+                                        Приватный
+                                    {% endif %}
+                                </td>
                             </tr>
                     </tbody>
                         {% endfor %}
