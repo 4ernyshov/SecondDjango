@@ -26,6 +26,7 @@
                         <th scope="col">Дата создания</th>
                         <th scope="col">Удалить</th>
                         <th scope="col">Редактировать</th>
+                        <th scope="col">Пользователь</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -40,6 +41,7 @@
                                 <td>
                                     <a href="{% url "edit" snippet.id %}">Редактировать</a>
                                 </td>
+                                <td>{{ snippet.user.username }}</td>
                             </tr>
                     </tbody>
                         {% endfor %}
