@@ -24,7 +24,8 @@
                         <th scope="col">ID</th>
                         <th scope="col">Название</th>
                         <th scope="col">Дата создания</th>
-                        <th scope="col">Удалить(button)</th>
+                        <th scope="col">Удалить</th>
+                        <th scope="col">Редактировать</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -34,9 +35,10 @@
                                 <td><a href="{% url "one-snippet" snippet.id %}">{{snippet.name}}</a></td>
                                 <td>{{snippet.creation_date}}</td>
                                 <td>
-                                    <form action="{% url "delete" snippet.id %}" method="post">
-                                        {% csrf_token %}
-                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                    <a href="{% url "delete" snippet.id %}">Удалить</a>
+                                </td>
+                                <td>
+                                    <a href="{% url "edit" snippet.id %}">Редактировать</a>
                                 </td>
                             </tr>
                     </tbody>

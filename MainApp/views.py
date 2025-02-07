@@ -39,8 +39,9 @@ def snippet_page(request, snippet_id):
         return render(request, "pages/errors.html", {"error": f"Snippet with id={snippet_id} not found"})
     else:
         context = {
-            "pagename": "Просмотр сниппетов",
-            "snippet": snippet
+            "pagename": "Просмотр сниппета",
+            "snippet": snippet,
+            "type": "view"
         }
         return render(request, "pages/view_snippet.html", context)
 
@@ -61,16 +62,31 @@ def edit_snippet(request, snippet_id):
     except ObjectDoesNotExist:
         return render(request, "pages/errors.html", {"error": f"Snippet with id={snippet_id} not found"})
     else:
-        pass
+        # if request.method == "GET":
+        #     context = {
+        #         "snippet": snippet,
+        #         "view": "edit"
+        #     }
+        #     return render(request, 'pages/view_snippet.html', context)
+        if request.method == "GET":
+            form = SnippetForm(instance=snippet)
+            return render(request, "pages/add_snippet.html", {"form": form})
+        if request.method == "POST":
+            data_form = request.POST
+            snippet.name = data_form["name"]
+            snippet.code = data_form["code"]
+            snippet.save()
+            return redirect("snippets")
+    
+        
+        
 
 
 def delete_snippet(request, snippet_id):
-    if request.method == "POST":
-        try:
-            snippet = Snippet.objects.get(pk=snippet_id)
-        except ObjectDoesNotExist:
-            return render(request, "pages/errors.html", {"error": f"Snippet with id={snippet_id} not found"})
-        else:
-            snippet.delete()
-            return redirect("snippets")
-    return redirect("snippets")
+    try:
+        snippet = Snippet.objects.get(pk=snippet_id)
+    except ObjectDoesNotExist:
+        return render(request, "pages/errors.html", {"error": f"Snippet with id={snippet_id} not found"})
+    else:
+        snippet.delete()
+        return redirect("snippets")
