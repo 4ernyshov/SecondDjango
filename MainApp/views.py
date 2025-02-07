@@ -134,17 +134,17 @@ def my_snippets(request):
 
 
 def user_register(request):
-    context = {'pagename': 'Добавление нового сниппета'}
+    context = {'pagename': 'Добавление нового пользователя'}
     if request.method == "GET":
         form = UserRegistrationForm()
         context['form']= form
         return render(request, 'pages/registration.html', context)
     if request.method == "POST":
-        form = UserRegistrationForm()
+        form = UserRegistrationForm(request.POST)
         if form.is_valid():
             form.save()
             context['form']= form
-            return redirect("home")
+            return redirect("index")
         return render(request, 'pages/registration.html', context)
     
 @login_required
